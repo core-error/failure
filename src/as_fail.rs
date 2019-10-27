@@ -26,7 +26,7 @@ impl AsFail for dyn Fail {
     }
 }
 
-with_std! {
+with_alloc! {
     use error::Error;
 
     impl AsFail for Error {

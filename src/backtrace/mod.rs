@@ -43,12 +43,12 @@ without_backtrace! {
             Backtrace { _secret: () }
         }
 
-        #[cfg(feature = "std")]
+        #[cfg(feature = "alloc")]
         pub(crate) fn none() -> Backtrace {
             Backtrace { _secret: () }
         }
 
-        #[cfg(feature = "std")]
+        #[cfg(feature = "alloc")]
         pub(crate) fn is_none(&self) -> bool {
             true
         }

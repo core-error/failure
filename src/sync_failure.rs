@@ -1,6 +1,6 @@
 use Fail;
 use core_error::Error;
-use std::fmt::{self, Debug, Display};
+use core::fmt::{self, Debug, Display};
 use std::sync::Mutex;
 
 /// Wrapper for `std` errors to make them `Sync`.

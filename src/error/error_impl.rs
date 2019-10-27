@@ -1,5 +1,5 @@
 use core::any::TypeId;
-
+use alloc::boxed::Box;
 use Fail;
 use backtrace::Backtrace;
 

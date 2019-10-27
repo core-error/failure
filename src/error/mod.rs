@@ -1,11 +1,12 @@
 use core::fmt::{self, Display, Debug};
+use alloc::boxed::Box;
 
 use {Causes, Fail};
 use backtrace::Backtrace;
 use context::Context;
 use compat::Compat;
 
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 use box_std::BoxStd;
 
 #[cfg_attr(feature = "small-error", path = "./error_impl_small.rs")]
@@ -58,7 +59,7 @@ impl Error {
     ///     Ok(92)
     /// }
     /// ```
-    #[cfg(feature = "std")]
+    #[cfg(feature = "alloc")]
     pub fn from_boxed_compat(err: Box<dyn StdError + Sync + Send + 'static>) -> Error {
         Error::from(BoxStd(err))
     }

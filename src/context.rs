@@ -2,7 +2,7 @@ use core::fmt::{self, Debug, Display};
 
 use Fail;
 
-without_std! {
+without_alloc! {
     /// An error with context around it.
     ///
     /// The context is intended to be a human-readable, user-facing explanation for the
@@ -62,7 +62,7 @@ without_std! {
     }
 }
 
-with_std! {
+with_alloc! {
     use {Error, Backtrace};
 
     /// An error with context around it.

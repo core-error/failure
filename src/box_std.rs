@@ -1,5 +1,6 @@
 use core_error::Error;
-use std::fmt;
+use core::fmt;
+use alloc::boxed::Box;
 use Fail;
 
 pub struct BoxStd(pub Box<dyn Error + Send + Sync + 'static>);

@@ -30,7 +30,8 @@ impl<E> Compat<E> {
 
 impl<E: Display + Debug> StdError for Compat<E> {}
 
-with_std! {
+with_alloc! {
+    use alloc::boxed::Box;
 
     use Error;
 

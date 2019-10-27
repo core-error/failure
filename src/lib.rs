@@ -26,18 +26,26 @@
 #![cfg_attr(feature = "small-error", feature(extern_types, allocator_api))]
 
 macro_rules! with_std { ($($i:item)*) => ($(#[cfg(feature = "std")]$i)*) }
-macro_rules! without_std { ($($i:item)*) => ($(#[cfg(not(feature = "std"))]$i)*) }
+macro_rules! with_alloc { ($($i:item)*) => ($(#[cfg(feature = "alloc")]$i)*) }
+macro_rules! without_alloc { ($($i:item)*) => ($(#[cfg(not(feature = "alloc"))]$i)*) }
 
 // Re-export libcore using an alias so that the macros can work without
 // requiring `extern crate core` downstream.
 #[doc(hidden)]
 pub extern crate core as _core;
 
+#[cfg(feature = "std")]
+extern crate core;
 extern crate core_error;
+
+#[cfg(all(feature = "alloc", not(feature = "std")))]
+extern crate alloc;
+#[cfg(feature = "std")]
+extern crate std as alloc;
 
 mod as_fail;
 mod backtrace;
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 mod box_std;
 mod compat;
 mod context;
@@ -64,11 +72,11 @@ pub use failure_derive::*;
 use core_error::Error as StdError;
 
 with_std! {
-    extern crate core;
-
     mod sync_failure;
     pub use sync_failure::SyncFailure;
+}
 
+with_alloc! {
     mod error;
 
     pub use error::Error;
@@ -109,10 +117,10 @@ with_std! {
 /// `Fail` by a blanket impl.
 pub trait Fail: Display + Debug + Send + Sync + 'static {
     /// Returns the "name" of the error.
-    /// 
+    ///
     /// This is typically the type name. Not all errors will implement
     /// this. This method is expected to be most useful in situations
-    /// where errors need to be reported to external instrumentation systems 
+    /// where errors need to be reported to external instrumentation systems
     /// such as crash reporters.
     fn name(&self) -> Option<&str> {
         None
